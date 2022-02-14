@@ -70,8 +70,8 @@ export default {
     // 点击退出登录
     async logout() {
       // 1)调用vuex-->actions中的logout方法
-      await this.$store.dispatch('user/logoutSystem')
-      //   2)页面跳转到登录页
+      this.$store.dispatch('user/logoutSystem')
+      // 2)页面跳转到登录页
       this.$router.push('/login')
     }
   }
