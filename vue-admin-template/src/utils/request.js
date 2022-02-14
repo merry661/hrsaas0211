@@ -1,9 +1,36 @@
 // 导出一个axios的实例  而且这个实例要有请求拦截器 响应拦截器
 import axios from 'axios'
-const service = axios.create() // 创建一个axios的实例
-service.interceptors.request.use() // 请求拦截器
-service.interceptors.response.use() // 响应拦截器
-export default service // 导出axios实例
+import { Message } from 'element-ui'
+// 1.创建一个axios的实例
+const service = axios.create({
+  // 1)设置axios请求的基础的基础地址
+  baseURL: process.env.VUE_APP_BASE_API,
+  // 2)  定义5秒超时
+  timeout: 5000
+
+})
+// 2.请求拦截器
+service.interceptors.request.use()
+
+// 3.响应拦截器
+service.interceptors.response.use(response => {
+  // 1)处理 axios默认加了一层data
+  const { success, message, data } = response.data
+  // 2)接口是否成功
+  if (success) {
+    return data
+  } else {
+    Message.error(message)// 提示错误消息
+    // 3) 业务已经错误了,只能进入到catch,触发promise.reject()
+    return Promise.reject(new Error(message))
+  }
+}, error => {
+  Message.error(error.message)// 提示错误消息
+
+  // 4)返回执行错误 让当前的执行链跳出成功 直接进入 catch
+  return Promise.reject(error)
+})
+export default service // 4.导出axios实例
 
 // import axios from 'axios'
 // import { MessageBox, Message } from 'element-ui'

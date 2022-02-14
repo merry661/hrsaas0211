@@ -1,10 +1,41 @@
-// import router from './router'
-// import store from './store'
-// import { Message } from 'element-ui'
-// import NProgress from 'nprogress' // progress bar
-// import 'nprogress/nprogress.css' // progress bar style
-// import { getToken } from '@/utils/auth' // get token from cookie
-// import getPageTitle from '@/utils/get-page-title'
+// 权限拦截 导航守卫 路由守卫
+
+import router from './router' // 引入路由
+import store from './store' // 引入vuex store实例
+import NProgress from 'nprogress' // progress bar //引入进度条插件
+import 'nprogress/nprogress.css' // progress bar style //引入进度条样式
+
+// 1.定义白名单
+const whiteList = ['/login', '/404']
+router.beforeEach((to, from, next) => {
+  // 2.启动进度条
+  NProgress.start()
+  // 3.判断token是否存在
+  // 1)有token-->path是'/login'->跳转主页
+  // 2)有token-->path不是'/login'->跳转
+  // 3)没有token-->path在白名单中->跳转
+  // 4)没有token-->path不再白名单里->强制跳转到登录页
+  if (store.getters.token) {
+    if (to.path === '/logn') {
+      next('/')
+    } else {
+      next()// 直接放行
+    }
+  } else {
+    if (whiteList.includes(to.path)) {
+      next()
+    } else {
+      next('/login')
+    }
+  }
+  // 手动强制关闭进度条 为了解决 手动切换地址时  进度条的不关闭的问题
+  NProgress.done()
+})
+
+// 后置守卫
+router.afterEach(() => {
+  NProgress.done()// 关闭进度条
+})
 
 // NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
