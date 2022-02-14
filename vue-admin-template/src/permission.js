@@ -7,24 +7,34 @@ import 'nprogress/nprogress.css' // progress bar style //引入进度条样式
 
 // 1.定义白名单
 const whiteList = ['/login', '/404']
-router.beforeEach((to, from, next) => {
-  // 2.启动进度条
-  NProgress.start()
-  // 3.判断token是否存在
-  // 1)有token-->path是'/login'->跳转主页
-  // 2)有token-->path不是'/login'->跳转
-  // 3)没有token-->path在白名单中->跳转
-  // 4)没有token-->path不再白名单里->强制跳转到登录页
-  if (store.getters.token) {
-    if (to.path === '/logn') {
+router.beforeEach(async(to, from, next) => {
+  NProgress.start()// 2.启动进度条
+
+  if (store.getters.token) { // 3.判断token是否存在
+    // 1)有token-->path是'/login'->跳转主页
+    console.log(to.path)
+    if (to.path === '/login') {
       next('/')
     } else {
-      next()// 直接放行
+      // 如果当前vuex中有用户的资料的id 表示 已经有资料了 不需要获取了 如果没有id才需要获取
+      if (!store.getters.userId) {
+        // 调用vuex中的actions中的方法 获取用户资料
+        const { roles } = await store.dispatch('user/getUserInforAC')
+        console.log(roles)
+        next()
+        // next(to.path)
+        // NProgress.done()
+      } else {
+        // 2)有token-->path不是'/login'->跳转
+        next()// 直接放行
+      }
     }
   } else {
     if (whiteList.includes(to.path)) {
+      // 3)没有token-->path在白名单中->跳转
       next()
     } else {
+      // 4)没有token-->path不再白名单里->强制跳转到登录页
       next('/login')
     }
   }

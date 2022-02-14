@@ -15,8 +15,13 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img src="@/assets/common/bigUserHeader.png" class="user-avatar">
-          <span class="name">管理员</span>
+          <!-- 用于处理异常图片的-自定义指令 -->
+          <img
+            v-imagerror="defaultImage"
+            :src="userPhoto"
+            class="user-avatar"
+          >
+          <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" style="color: #fff" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -45,19 +50,29 @@ export default {
     // Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      defaultImage: require('@/assets/common/head.jpg')
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'name',
+      'userPhoto'
     ])
   },
   methods: {
+    //   点击合并左侧菜单
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
+    // 点击退出登录
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      // 1)调用vuex-->actions中的logout方法
+      await this.$store.dispatch('user/logoutSystem')
+      //   2)页面跳转到登录页
+      this.$router.push('/login')
     }
   }
 }
