@@ -12,15 +12,15 @@ router.beforeEach(async(to, from, next) => {
 
   if (store.getters.token) { // 3.判断token是否存在
     // 1)有token-->path是'/login'->跳转主页
-    console.log(to.path)
+
     if (to.path === '/login') {
       next('/')
     } else {
       // 如果当前vuex中有用户的资料的id 表示 已经有资料了 不需要获取了 如果没有id才需要获取
       if (!store.getters.userId) {
         // 调用vuex中的actions中的方法 获取用户资料
-        const { roles } = await store.dispatch('user/getUserInforAC')
-        console.log(roles)
+        await store.dispatch('user/getUserInforAC')
+
         next()
         // next(to.path)
         // NProgress.done()

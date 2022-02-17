@@ -12,6 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
+        <!-- 左侧菜单，循环router的配置项 -->
         <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
@@ -31,6 +32,7 @@ export default {
       'sidebar'
     ]),
     routes() {
+      console.log(this.$router.options)
       return this.$router.options.routes
     },
     activeMenu() {
