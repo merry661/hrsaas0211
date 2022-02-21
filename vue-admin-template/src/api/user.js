@@ -9,8 +9,8 @@ export function login(data) {
     data
   })
 }
-// 2.获取用户资料
 
+// 2.获取用户资料
 export function getUserInfo() {
   return request({
     url: '/sys/profile',
@@ -23,10 +23,11 @@ export function getUserInfo() {
 
 // }
 // 4.获取头像数据
-// 获取员工基本信息
+// 5.获取某个用户的基本信息
 export function getUserAvatarById(id) {
   return request({
     url: `/sys/user/${id}`,
     method: 'GET'
   })
 }
+
