@@ -3,7 +3,7 @@
   <div class="dashboard-container">
     <div class="app-container">
       <!-- -通用-工具栏组件 -->
-      <page-tools>
+      <page-tools :show-before="true">
         <!-- 左侧显示总记录数 :插槽的2种使用方式 -->
         <!-- <span slot="before">共{{ page.total }}条记录</span> -->
         <template v-slot:before>

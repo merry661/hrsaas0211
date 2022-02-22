@@ -12,6 +12,7 @@
 
         <!-- 中间内容列表部分 -->
         <el-tree
+          icon-class="el-icon-circle-plus-outline"
           :data="departs"
           :props="defaultProps"
           :default-expand-all="true"
@@ -103,4 +104,7 @@ export default {
 		padding: 30px 140px;
 		font-size: 14px;
 	}
+	/* .el-tree /deep/ .el-icon-arrow-right:before {
+		content: "\e6d9";
+	} */
 </style>

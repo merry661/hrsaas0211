@@ -4,7 +4,7 @@
     <el-row type="flex" justify="space-between" align="middle">
       <!-- 第一列 -->
       <el-col>
-        <div class="before">
+        <div v-if="showBefore" class="before">
           <!-- 叹号图标 -->
           <i class="el-icon-info" />
           <!-- 定义前面的插槽 -->
@@ -28,7 +28,7 @@ export default {
   components: {
   },
   props: {
-    showBefore: {
+    showBefore: { // 控制before插槽的显隐
       type: Boolean,
       default: false
     }
