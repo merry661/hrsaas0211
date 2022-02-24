@@ -10,6 +10,7 @@ import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
+import userRouter from './modules/user'
 Vue.use(Router)
 
 /* Layout */
@@ -60,7 +61,7 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: 'dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
@@ -73,7 +74,8 @@ export const constantRoutes = [
       path: '', // 什么都不写表示默认的二级路由
       component: () => import('@/views/import')
     }]
-  }
+  },
+  userRouter // 放置一个都可以访问的路由
 
   // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true }
@@ -92,15 +94,18 @@ export const asyncRoutes = [
 
 // 创建路由实例
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }), // 管理滚动行为 如果出现滚动 切换就让 让页面回到顶部
+  base: '/hr/', // 配置项目基础地质
   // routes: constantRoutes
-  routes: [...constantRoutes, ...asyncRoutes]// 临时合并所有的路由
+  // routes: [...constantRoutes, ...asyncRoutes]// 临时合并所有的路由
+  routes: [...constantRoutes]// 静态路由动态路由解除合并, 改成 只有静态路由
 })
 
 const router = createRouter()// 实例化一个路由
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+// 重置路由
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router

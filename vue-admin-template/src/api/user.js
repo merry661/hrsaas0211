@@ -1,33 +1,34 @@
 import request from '@/utils/request'
 
-// 1.登录
+/** *
+ * 登陆接口封装
+ * **/
 export function login(data) {
-// 返回一个axios对象 => promise  // 返回了一个promise对象
+// 返回一个promise对象
   return request({
     url: '/sys/login',
     method: 'post',
     data
   })
 }
-
-// 2.获取用户资料
+/**
+获取用户资料接口
+**/
 export function getUserInfo() {
   return request({
     url: '/sys/profile',
     method: 'post'
   })
 }
-
-// 3.登出
-// export function logout() {
-
-// }
-// 4.获取头像数据
-// 5.获取某个用户的基本信息
+/** **
+ *
+ * 根据用户id获取用户的详情
+ * ****/
 export function getUserAvatarById(id) {
   return request({
-    url: `/sys/user/${id}`,
-    method: 'GET'
+    url: `/sys/user/${id}`
   })
 }
+export function logout() {
 
+}

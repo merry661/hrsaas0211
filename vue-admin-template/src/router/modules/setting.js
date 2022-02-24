@@ -6,7 +6,7 @@ import Layout from '@/layout'
 // 导出属于员工的路由规则,
 export default {
   path: '/setting',
-  name: 'setting',
+  name: 'settings',
   component: Layout,
   // 配置二级路由的路由表
   children: [{

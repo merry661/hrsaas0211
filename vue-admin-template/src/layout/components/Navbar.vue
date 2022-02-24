@@ -13,7 +13,20 @@
     <!-- <breadcrumb class="breadcrumb-container" /> -->
     <!-- 顶部-右侧下拉菜单设置 -->
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <!-- 全屏显示 插件 -->
+      <screen-full
+        class="right-menu-item"
+      />
+      <!-- 换肤/主题插件 -->
+      <ThemePicker class="right-menu-item" />
+      <!-- 切换语言 -->
+      <lang-select class="right-menu-item" />
+
+      <el-dropdown
+        class="
+        avatar-container"
+        trigger="click"
+      >
         <div class="avatar-wrapper">
           <!-- 用于处理异常图片的-自定义指令 -->
           <img
@@ -63,16 +76,15 @@ export default {
     ])
   },
   methods: {
-    //   点击合并左侧菜单
+    // 1. 点击合并左侧菜单
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    // 点击退出登录
+    // 2. 点击退出登录
     async logout() {
-      // 1)调用vuex-->actions中的logout方法
-      this.$store.dispatch('user/logoutSystem')
-      // 2)页面跳转到登录页
-      this.$router.push('/login')
+      this.$store.dispatch('user/logoutSystem') // 1)调用vuex-->actions中的logout方法
+
+      this.$router.push('/login') // 2)页面跳转到登录页
     }
   }
 }
@@ -136,7 +148,7 @@ export default {
 				height: 100%;
 				font-size: 18px;
 				color: #5a5e66;
-				vertical-align: text-bottom;
+				vertical-align: middle;
 
 				&.hover-effect {
 					cursor: pointer;

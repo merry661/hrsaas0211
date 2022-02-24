@@ -11,18 +11,21 @@ router.beforeEach(async(to, from, next) => {
   NProgress.start()// 2.启动进度条
 
   if (store.getters.token) { // 3.判断token是否存在
-    // 1)有token-->path是'/login'->跳转主页
-
-    if (to.path === '/login') {
-      next('/')
+    if (to.path === '/login') { // 1)有token-->path是'/login'->跳转主页
+      next('/')// 跳转主页
     } else {
       // 如果当前vuex中有用户的资料的id 表示 已经有资料了 不需要获取了 如果没有id才需要获取
       if (!store.getters.userId) {
-        // 调用vuex中的actions中的方法 获取用户资料
-        await store.dispatch('user/getUserInforAC')
+        const { roles } = await store.dispatch('user/getUserInforAC') // 调用vuex中的actions中的方法 获取用户资料
 
-        next()
-        // next(to.path)
+        // 在拦截的位置，调用关联action， 获取新增routes，并且**addRoutes**
+        const routes = await store.dispatch('permission/filterRoutes', roles.menus)// 获取筛选到的动态路由
+
+        // router.addRoutes(routes)// 添加动态路由到路由表  铺路
+        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])
+
+        // next()// 添加完动态路由之后,必须 用 next(地址) 不能用next()
+        next(to.path)
         // NProgress.done()
       } else {
         // 2)有token-->path不是'/login'->跳转

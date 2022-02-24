@@ -29,12 +29,14 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar',
+      'routes'
     ]),
-    routes() {
-      console.log(this.$router.options)
-      return this.$router.options.routes
-    },
+    // routes() {
+    //   console.log(this.$router.options)
+    //   return this.$router.options.routes
+    // },
+    // 激活的左侧菜单项
     activeMenu() {
       const route = this.$route
       const { meta, path } = route
@@ -44,12 +46,15 @@ export default {
       }
       return path
     },
+    // 显示图标
     showLogo() {
       return this.$store.state.settings.sidebarLogo
     },
+    // 校验
     variables() {
       return variables
     },
+    // 是否合并
     isCollapse() {
       return !this.sidebar.opened
     }

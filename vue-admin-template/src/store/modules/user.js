@@ -1,6 +1,9 @@
 // 用户模块
 import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserAvatarById, getUserInfo } from '@/api/user'
+// 导入重置路由方法
+import { resetRouter } from '@/router'
+
 // 状态
 const state = {
   // 设置token的共享状态,初始化vuex时，先从本地缓存中读取，并赋值到初始化的状态上（实现token持久化）
@@ -61,12 +64,15 @@ const actions = {
       return Promise.reject(error)
     }
   },
+
   // 3.封装获取用户退出登录的action
   logoutSystem(context) {
     context.commit('removeToken') // 1)删除token
     context.commit('removeUserInfoMu') // 2) 删除用户资料
-    // 3) 重置路由
-    // 4)commit 提交mutations中的方法
+
+    resetRouter()// 3) 重置路由,重置为静态的
+    // 4)commit 提交mutations中的方法，设置权限模块下路由为初始状态
+    context.commit('permission/setRoutes', [], { root: true })
   }
 
 }
