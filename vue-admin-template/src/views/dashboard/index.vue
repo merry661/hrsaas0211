@@ -12,7 +12,7 @@
           <div class="headInfoTip">
             <!-- 将首页的信息换成真实的用户资料 -->
             <p class="firstChild">
-              早安，{{ userInfor.username }}}，祝你开心每一天！
+              早安，{{ userInfor.username }}，祝你开心每一天！
             </p>
             <p class="lastChild">
               {{ userInfor.username }} | {{ userInfor.companyName }} -{{

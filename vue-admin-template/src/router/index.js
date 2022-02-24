@@ -94,12 +94,11 @@ export const asyncRoutes = [
 
 // 创建路由实例
 const createRouter = () => new Router({
-  mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }), // 管理滚动行为 如果出现滚动 切换就让 让页面回到顶部
-  base: '/hr/', // 配置项目基础地质
-  // routes: constantRoutes
-  // routes: [...constantRoutes, ...asyncRoutes]// 临时合并所有的路由
-  routes: [...constantRoutes]// 静态路由动态路由解除合并, 改成 只有静态路由
+  mode: 'hash',
+  // mode: 'history', // require service support
+  base: '/hr/',
+  scrollBehavior: () => ({ y: 0 }),
+  routes: [...constantRoutes] // 静态路由和动态路由的临时合并
 })
 
 const router = createRouter()// 实例化一个路由
